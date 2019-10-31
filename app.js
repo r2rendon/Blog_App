@@ -28,68 +28,68 @@ var BlogSchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     }
-});
+})
 
-var Blog = mongoose.model('Blog', BlogSchema);
+var Blog = mongoose.model('Blog', BlogSchema)
 
 //RESTful Routes
 
 app.get('/', (req, res) => {
-    res.redirect("/blogs");
-});
+    res.redirect('/blogs')
+})
 
 //Index route
 app.get('/blogs', (req, res) => {
     Blog.find({}, (err, blogs) => {
-        if (err) console.log("Error finding the blogs");
-        else res.render("index", {
+        if (err) console.log('Error finding the blogs')
+        else res.render('index', {
             blogs: blogs
-        });
-    });
-});
+        })
+    })
+})
 
 //NEW Route
 app.get('/blogs/new', (req, res) => {
-    res.render("new");
+    res.render('new')
 });
 
 //CREATE Route
 app.post('/blogs', (req, res) => {
-    req.body.blog.body = req.sanitize(req.body.blog.body);
+    req.body.blog.body = req.sanitize(req.body.blog.body)
     Blog.create(req.body.blog, (err, newBlog) => {
-        if (err) res.render("new");
-        else res.redirect("/blogs");
-    });
-});
+        if (err) res.render('new')
+        else res.redirect('/blogs')
+    })
+})
 
 //SHOW Route
 app.get('/blogs/:id', (req, res) => {
     Blog.findById(req.params.id, (err, fBlog) => {
-        if (err) res.redirect('/blogs');
+        if (err) res.redirect('/blogs')
         else res.render('show', {
             blog: fBlog
-        });
-    });
-});
+        })
+    })
+})
 
 //EDIT Route
 app.get('/blogs/:id/edit', (req, res) => {
     Blog.findById(req.params.id, (err, fBlog) => {
-        if (err) res.redirect('/blogs');
+        if (err) res.redirect('/blogs')
         else res.render('edit', {
             blog: fBlog
-        });
-    });
-});
+        })
+    })
+})
 
 //UPDATE Route
 app.put('/blogs/:id', (req, res) => {
-    req.body.blog.body = req.sanitize(req.body.blog.body);
+    req.body.blog.body = req.sanitize(req.body.blog.body)
     Blog.findByIdAndUpdate(req.params.id, req.body.blog, (err, fBlog) => {
-        if (err) res.redirect('/blogs');
-        else res.redirect('/blogs/' + req.params.id);
-    });
-});
+        if (err) res.redirect('/blogs')
+        else res.redirect('/blogs/' + req.params.id)
+    })
+})
 
 //DESTROY Route
 app.delete('/blogs/:id', (req, res) => {
